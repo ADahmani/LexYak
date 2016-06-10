@@ -27,22 +27,27 @@ asgn:	VAR '=' expr	{ Code3(VarPush, (InsMac) $1, Assign); }
 			| UNDEF '=' expr	{ Code3(VarPush, (InsMac) $1, Assign); };
 func:	UNDEF '(' ')' '{' bloc '}' {
 				$1->type = DEF;
-				printf("nouvelle fonction");
+				Code3(VarPush, (InsMac) $1, Assign);
 			}
 			|
 			DEF '(' ')' '{' bloc '}' {
 						printf("redif fonction");
 			};
-bloc:	inst
-inst:	expr ';'
+bloc:	inst ';' inst
+			;
+inst:	expr
 			|
-			asgn ';'
+			asgn
 			;
 help:	PRINT { printSymbolList(); }
 expr:	NUMBER	{ Code2(NbrPush, (InsMac) $1); }
 	| VAR	{ Code3(VarPush, (InsMac) $1, Eval); }
 	| PREDEF '(' expr ')'	{
-			Code2(Predef,  (InsMac) $1->U.func);
+			Code3(Predef,  (InsMac) $1, Assign);
+		}
+	| DEF '(' ')'	{
+			Code3(VarPush, (InsMac) $1, Eval);
+			printf("appele fonction");
 		}
 	| '(' expr ')'	{ $$ = $2; }
 	| '-' expr %prec UNARYMINUS { Code(Negate); }
