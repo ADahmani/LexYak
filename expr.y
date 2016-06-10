@@ -30,12 +30,11 @@ func:	UNDEF '(' ')' '{' bloc '}' {
 				printf("nouvelle fonction");
 			}
 			|
-			UNDEF '(' ')' '{' bloc '}' {
-						$1->type;
-						printf("nouvelle fonction");
+			DEF '(' ')' '{' bloc '}' {
+						printf("redif fonction");
 			};
-bloc:	inst ';' inst
-inst:	exp ';'
+bloc:	inst
+inst:	expr ';'
 			|
 			asgn ';'
 			;
@@ -45,10 +44,6 @@ expr:	NUMBER	{ Code2(NbrPush, (InsMac) $1); }
 	| PREDEF '(' expr ')'	{
 			Code2(Predef,  (InsMac) $1->U.func);
 		}
-	| DEF '(){}'	{
-			printf('lllll');
-		}
-	|
 	| '(' expr ')'	{ $$ = $2; }
 	| '-' expr %prec UNARYMINUS { Code(Negate); }
 	| expr '+' expr { Code(Add); }

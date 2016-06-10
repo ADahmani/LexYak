@@ -43,8 +43,9 @@
      UNDEF = 259,
      PREDEF = 260,
      NUMBER = 261,
-     PRINT = 262,
-     UNARYMINUS = 263
+     DEF = 262,
+     PRINT = 263,
+     UNARYMINUS = 264
    };
 #endif
 /* Tokens.  */
@@ -52,8 +53,9 @@
 #define UNDEF 259
 #define PREDEF 260
 #define NUMBER 261
-#define PRINT 262
-#define UNARYMINUS 263
+#define DEF 262
+#define PRINT 263
+#define UNARYMINUS 264
 
 
 
@@ -66,7 +68,7 @@ typedef union YYSTYPE
 	Psymbol symbol;
 }
 /* Line 1529 of yacc.c.  */
-#line 70 "expr.tab.h"
+#line 72 "expr.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
