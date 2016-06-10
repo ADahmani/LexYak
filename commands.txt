@@ -1,0 +1,16 @@
+bison -d expr.y
+=> expr.tab.h et expr.tab.c sont générés
+OU
+yacc -d expr.y
+=> y.tab.h et y.tab.c sont générés
+
+flex -I expr.l
+OU
+lex -I expr.l
+=> lex.yy.c
+
+gcc expr.tab.c lex.yy.c init.c math.c symbol.c code.c -o expr -lfl -ly -lm
+
+bison -d expr.y
+flex -I expr.l
+gcc expr.tab.c lex.yy.c init.c math.c symbol.c code.c -o expr -lfl -ly -lm

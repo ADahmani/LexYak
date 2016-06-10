@@ -1,0 +1,1 @@
+double Log(double x);
