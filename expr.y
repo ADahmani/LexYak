@@ -5,7 +5,7 @@
 	double value;
 	Psymbol symbol;
 }
-%token<symbol> VAR UNDEF PREDEF NUMBER
+%token<symbol> VAR UNDEF PREDEF NUMBER DEF
 %token PRINT
 %type<value> expr
 %left '+' '-'
@@ -16,6 +16,7 @@
 list:	vide
 	| list '\n'	{ Code(STOP); return 1;}
 	| list help '\n' {prompt();}
+	| list func '\n' {prompt();}
 	| list asgn '\n'	{ Code(STOP); return 1; }
 	| list expr '\n'	{
                         Code2(PrintExpr,  STOP); return 1;
@@ -23,12 +24,31 @@ list:	vide
 	| list error '\n'	{yyerrok;prompt();}
 vide:	;
 asgn:	VAR '=' expr	{ Code3(VarPush, (InsMac) $1, Assign); }
+			| UNDEF '=' expr	{ Code3(VarPush, (InsMac) $1, Assign); };
+func:	UNDEF '(' ')' '{' bloc '}' {
+				$1->type = DEF;
+				printf("nouvelle fonction");
+			}
+			|
+			UNDEF '(' ')' '{' bloc '}' {
+						$1->type;
+						printf("nouvelle fonction");
+			};
+bloc:	inst ';' inst
+inst:	exp ';'
+			|
+			asgn ';'
+			;
 help:	PRINT { printSymbolList(); }
 expr:	NUMBER	{ Code2(NbrPush, (InsMac) $1); }
 	| VAR	{ Code3(VarPush, (InsMac) $1, Eval); }
 	| PREDEF '(' expr ')'	{
 			Code2(Predef,  (InsMac) $1->U.func);
 		}
+	| DEF '(){}'	{
+			printf('lllll');
+		}
+	|
 	| '(' expr ')'	{ $$ = $2; }
 	| '-' expr %prec UNARYMINUS { Code(Negate); }
 	| expr '+' expr { Code(Add); }

@@ -751,7 +751,7 @@ YY_RULE_SETUP
 {
 		Psymbol sp = lookUpSymbol(yytext);
 		if(sp==SYMB_NULL) sp=installSymbol(yytext, UNDEF, 0.0);
-		yylval.symbol=sp;return (sp->type == UNDEF) ? VAR : sp->type;
+		yylval.symbol=sp;return sp->type;
 	}
 	YY_BREAK
 case 5:

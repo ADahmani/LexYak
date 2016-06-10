@@ -14,7 +14,7 @@
 [a-zA-Z][a-zA-Z0-9]*	{
 		Psymbol sp = lookUpSymbol(yytext);
 		if(sp==SYMB_NULL) sp=installSymbol(yytext, UNDEF, 0.0);
-		yylval.symbol=sp;return (sp->type == UNDEF) ? VAR : sp->type;
+		yylval.symbol=sp;return sp->type;
 	}
 \n	{
 		lineNo++;
